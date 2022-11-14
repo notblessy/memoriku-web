@@ -3,11 +3,27 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { CookiesProvider } from 'react-cookie';
+import { BrowserRouter } from 'react-router-dom';
+import { SWRConfig } from 'swr';
+
+import { fetcher } from './libs/utils/api';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <CookiesProvider>
+      <BrowserRouter>
+        <SWRConfig
+          value={{
+            refreshInterval: 0,
+            fetcher
+          }}
+        >
+          <App />
+        </SWRConfig>
+      </BrowserRouter>
+    </CookiesProvider>
   </React.StrictMode>
 );
 
