@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Moment from 'moment';
 
 import {
-  Avatar,
+  Button,
   Card,
-  CardActions,
   CardContent,
-  CardHeader,
-  CardMedia,
   Container,
   Divider,
   Drawer,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -20,11 +16,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { blueGrey, red } from '@mui/material/colors';
-
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import { blueGrey, grey } from '@mui/material/colors';
 
 import { useCategory } from '../../libs/hooks/category';
 import { useMemory } from '../../libs/hooks/memory';
@@ -34,6 +26,10 @@ export default function Home() {
   const { data: memories } = useMemory();
 
   const drawerWidth = 240;
+
+  const [isRead, setRead] = useState(false);
+
+  const handleReadMore = () => setRead();
 
   return (
     <React.Fragment>
@@ -87,39 +83,20 @@ export default function Home() {
         {memories?.records?.map(data => {
           return <React.Fragment>
             <Card sx={{ width: '100%', mb: 2}}>
-              <CardHeader
-                avatar={
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    R
-                  </Avatar>
-                }
-                action={
-                  <IconButton aria-label="settings">
-                    <MoreVertIcon />
-                  </IconButton>
-                }
-                title={data.title}
-                subheader={Moment(data.created_at).format('MMMM DD, YYYY')}
-              />
-              <CardMedia
-                component="img"
-                height="194"
-                image={data.photo}
-                alt="Paella dish"
-              />
-              <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  {data.body}
+              <Box sx={{px: '16px'}}>
+                <Typography variant='h5' sx={{pt: 2, pb: 1, color: grey[700]}}>{data.title}</Typography>
+                <Typography variant='caption'  sx={{ background: grey[500], p: '5px', color: '#FFF', fontSize: 10}}>{Moment(data.created_at).format('MMMM DD, YYYY')}</Typography>
+              </Box>
+              <CardContent sx={{pt: 0}}>
+                <Typography variant="caption" color="text.secondary">
+                  {data.body?.length > 150 ?
+                    <p dangerouslySetInnerHTML={{ __html: data.body?.slice(0, 250) + "..." }}></p>
+                  :
+                    <p dangerouslySetInnerHTML={{ __html: data.body}}></p>
+                  }
+                  <Button variant="text" color='inherit' size='small' sx={{borderRadius: 0, border: '1px'}} onClick={setRead}>read more</Button>
                 </Typography>
               </CardContent>
-              <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                  <ShareIcon />
-                </IconButton>
-              </CardActions>
             </Card>
           </React.Fragment>
         })}
