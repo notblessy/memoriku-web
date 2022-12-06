@@ -1,16 +1,14 @@
 import React from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { GuestOnly, Protector } from './components';
 
 import {
   AppBar,
   Box,
-  Breadcrumbs,
   Container,
   CssBaseline,
   Divider,
   Drawer,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -18,7 +16,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import { blueGrey, red } from '@mui/material/colors';
+import { blueGrey } from '@mui/material/colors';
 
 import Home from './pages/home';
 import Memory from './pages/memory';

@@ -2,7 +2,6 @@ import React from 'react';
 import Moment from 'moment';
 
 import {
-  Button,
   Card,
   CardContent,
   Link,
@@ -34,11 +33,10 @@ export default function Home() {
               :
                 <p dangerouslySetInnerHTML={{ __html: data.body}}></p>
               }
-              <Link href={data.id} color='inherit' underline='hover'>read more</Link>
+              <Link href={data.id} color={grey[800]} underline='hover'>read more</Link>
             </Typography>
           </CardContent>
         </Card>
-        
       </React.Fragment>
     })
   );
