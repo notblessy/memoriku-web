@@ -9,10 +9,12 @@ import {
   CssBaseline,
   Divider,
   Drawer,
+  Input,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
+  TextField,
   Toolbar,
   Typography,
 } from '@mui/material'
@@ -22,9 +24,11 @@ import Home from './pages/home';
 import Memory from './pages/memory';
 
 import { useCategory } from './libs/hooks/category';
+import { useMemories } from './libs/hooks/memory';
 
 function App() {
   const { data: categories } = useCategory();
+  const { onSearch, onChangePage } = useMemories();
   const drawerWidth = 240;
 
   return (
@@ -37,9 +41,17 @@ function App() {
           sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px`, bgcolor: blueGrey[700] }}
         >
           <Toolbar>
-            {/* <Typography variant="h6" noWrap component="div">
-              memoriku
-            </Typography> */}
+            <TextField
+              id="filled-search"
+              label="Search field"
+              type="search"
+              variant="filled"
+              onChange={(event) => {
+                console.log(event.target.value)
+                // onSearch(event.target.value);
+                onChangePage(5)
+              }}
+            />
           </Toolbar>
         </AppBar>
         <React.Fragment>    

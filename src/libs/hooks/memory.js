@@ -1,24 +1,23 @@
-import { useCallback, useState } from 'react';
-// import { useSearchParams } from 'react-router-dom';
+import { useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import useSWR from 'swr';
-// import debounce from 'lodash/debounce';
+import debounce from 'lodash/debounce';
 
 
 export const useMemories = () => {
-  // const {query, setQuery} = useSearchParams()
-  const {page, setPage} = useState(1)
+  const {query, setQuery} = useSearchParams()
 
-  const pathKey = `/memories?size=6&page=${page}`;
+  const pathKey = `/memory?size=1&${query.toString()}`;
   const { data, error, isValidating } = useSWR(pathKey);
 
   const onChangePage = useCallback((nextPage) => {
-    setPage(nextPage);
-  }, [setPage]);
+    setQuery({page: nextPage});
+  }, [setQuery]);
 
-  // const onSearch = debounce((title) => {
-  //   setQuery({ title: title });
-  // }, 1500);
+  const onSearch = debounce((title) => {
+    setQuery({title: title});
+  }, 1500);
 
 
   return {
