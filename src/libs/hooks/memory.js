@@ -7,7 +7,11 @@ import useSWR from 'swr';
 import debounce from 'lodash/debounce';
 
 export const useMemories = () => {
-  const [query, setQuery] = useSearchParams()
+  const [query, setQuery] = useSearchParams({
+    page: 1,
+    title: "",
+    categoryID: ""
+  })
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -18,14 +22,30 @@ export const useMemories = () => {
     total: 0,
   });
 
-
   const fetchData = async () => {
     setLoading(true);
     try {
       const { data: res } = await api.get(`/memory?size=4&${query.toString()}`);
-      if (res.data.records.length) {
-        setData(data.concat(res.data.records));
-        setPaging(res.data.pageSummary)
+      if (res.data.records.length > 0) {
+        if (
+         query.get("categoryID") || query.get("title") ||
+         ((paging.page > query.get("page"))) ||
+         (!paging.page || !query.get("page"))
+        ) {
+          setPaging(res.data.pageSummary);
+          setData(res.data.records)
+        } else {
+          setPaging(res.data.pageSummary);
+          setData(data.concat(res.data.records));
+        }
+      } else {
+        setData([])
+        setPaging({
+          hasNext: false,
+          page: 1,
+          size: 0,
+          total: 0,
+        })
       }
     } catch (error) {
       console.error(error);
@@ -35,30 +55,31 @@ export const useMemories = () => {
   };
 
   useEffect(() => {
-    // untuk initial load
-    const initialPage = 1;
-    fetchData(initialPage);
-  }, []);
+    const page = query.get("page") ? query.get("page") : null
+    const categoryID = query.get("categoryID")
+    const title = query.get("title")
 
-  useEffect(() => {
-    if (query.get("page") ) {
-      fetchData(query.get("page"))
+    if (page || categoryID || title) {
+      fetchData(page, categoryID, title)
     }
-  }, [query.get("page")])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query.get("page"), query.get("categoryID"), query.get("title")])
 
   const onChangePage = useCallback((nextPage) => {
     setQuery({page: nextPage});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSearch = debounce((title) => {
+    window.scrollTo(0, 0);
     setQuery({title: title});
-  }, 1500);
+  }, 1000);
 
   const onFilter = useCallback((categoryID) => {
+    window.scrollTo(0, 0);
     setQuery({categoryID: categoryID});
-  }, [setQuery])
-
-  console.log(query.toString())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return {
     data: data ? data : {},

@@ -1,6 +1,5 @@
 import React from 'react';
 import Moment from 'moment';
-import InfiniteScroll from 'react-infinite-scroller';
 
 import {
   Card,
@@ -22,15 +21,16 @@ export default function Home() {
   const handleScroll = (e) => {
     if (
       window.innerHeight + e.target.documentElement.scrollTop + 1 >
-      e.target.documentElement.scrollHeight &&
-      !paging.hasNext && paging.page !== 0
+      e.target.documentElement.scrollHeight
     ) {
       onChangePage(paging.page + 1)
     }
   }
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll)
+    if (paging.hasNext && paging.page !== 0) {
+      window.addEventListener("scroll", handleScroll)
+    }
   })
 
   return <React.Fragment>

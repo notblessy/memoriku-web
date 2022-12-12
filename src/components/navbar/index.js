@@ -3,9 +3,12 @@ import { Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemText, To
 import { blueGrey } from '@mui/material/colors';
 import { useCategory } from '../../libs/hooks/category';
 import { useMemories } from '../../libs/hooks/memory';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar(props) {
   const drawerWidth = 240;
+
+  const navigate = useNavigate()
   const { data: categories } = useCategory();
   const { onFilter } = useMemories()
 
@@ -22,7 +25,7 @@ function Navbar(props) {
         variant="permanent"
         anchor="left"
         >
-        <Link component="button" onClick={() => onFilter("")} underline="none">
+        <Link component="button" onClick={() => navigate('/')} underline="none">
             <Toolbar 
                 sx={{ bgcolor: blueGrey[700] }}
             >
