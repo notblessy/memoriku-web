@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { SWRConfig } from 'swr';
 
 import { fetcher } from './libs/utils/api';
+import { AuthProvider } from './libs/contexts/auth';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,7 +21,9 @@ root.render(
             fetcher
           }}
         >
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
         </SWRConfig>
       </BrowserRouter>
     </CookiesProvider>

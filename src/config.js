@@ -1,5 +1,5 @@
 const base = {
-    COOKIE_NAME: 'memoriku-web',
+    COOKIE_NAME: 'memoriku',
     LAST_VISIT: 'last-visit',
   };
   

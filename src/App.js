@@ -16,6 +16,7 @@ import Home from './pages/home';
 import Memory from './pages/memory';
 
 import { useMemories } from './libs/hooks/memory';
+import Auth from './pages/auth';
 
 function App() {
   const { onSearch } = useMemories();
@@ -55,7 +56,7 @@ function App() {
                 <Route path="/protected/category" element="" />
               </Route>
               <Route element={<GuestOnly />}>
-                <Route path="/auth" element="" />
+                <Route path="/auth" element={<Auth />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/:memoryID" element={<Memory />} />
               </Route>

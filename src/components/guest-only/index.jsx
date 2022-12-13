@@ -5,7 +5,7 @@ function GuestOnly(props) {
   const { pathname } = useLocation();
   const [cookies] = useCookies();
 
-  const blacklisted = ['/login', '/login/staff', '/signup'];
+  const blacklisted = ['/auth', '/signup'];
 
   if (cookies?.accessToken && !blacklisted.includes(pathname)) {
     return <Navigate to="/" />;
