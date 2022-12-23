@@ -55,11 +55,9 @@ function App() {
                 <Route path="/protected/memory" element="" />
                 <Route path="/protected/category" element="" />
               </Route>
-              <Route element={<GuestOnly />}>
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/" element={<Home />} />
-                <Route path="/:memoryID" element={<Memory />} />
-              </Route>
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/:memoryID" element={<Memory />} />
             </Routes>
           </Container>
         </React.Fragment>

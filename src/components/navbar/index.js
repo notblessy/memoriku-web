@@ -4,13 +4,18 @@ import { blueGrey } from '@mui/material/colors';
 import { useCategory } from '../../libs/hooks/category';
 import { useMemories } from '../../libs/hooks/memory';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 function Navbar(props) {
   const drawerWidth = 240;
 
+  const [cookies] = useCookies()
+
   const navigate = useNavigate()
   const { data: categories } = useCategory();
   const { onFilter } = useMemories()
+
+  console.log("COOKIES: ", cookies.accessToken)
 
   return <React.Fragment>
     <Drawer
@@ -29,7 +34,7 @@ function Navbar(props) {
             <Toolbar 
                 sx={{ bgcolor: blueGrey[700] }}
             >
-                <Typography variant="h6"  sx={{ color: blueGrey[50] }} noWrap component="div">memoriku</Typography>
+                <Typography variant="h6"  sx={{ color: blueGrey[50] }} noWrap component="div">memoriku {cookies.accessToken ? "(ADMIN)" : null}</Typography>
 
             </Toolbar>
         </Link>
