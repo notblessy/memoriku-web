@@ -9,13 +9,17 @@ import { useCookies } from 'react-cookie';
 function Navbar(props) {
   const drawerWidth = 240;
 
+  const navigate = useNavigate()
+
   const [cookies] = useCookies()
 
-  const navigate = useNavigate()
   const { data: categories } = useCategory();
   const { onFilter } = useMemories()
 
-  console.log("COOKIES: ", cookies.accessToken)
+  const handleFilter = (cat) => {
+    navigate("/", {replace: true})
+    onFilter(cat)
+  }
 
   return <React.Fragment>
     <Drawer
@@ -30,7 +34,7 @@ function Navbar(props) {
         variant="permanent"
         anchor="left"
         >
-        <Link component="button" onClick={() => navigate('/')} underline="none">
+        <Link component="button" onClick={() => navigate('/', {replace: true})} underline="none">
             <Toolbar 
                 sx={{ bgcolor: blueGrey[700] }}
             >
@@ -50,7 +54,7 @@ function Navbar(props) {
             {data.categories?.map(cat => {
             return  <List key={cat.value} sx={{p: 0}}>
                 <ListItem disablePadding>
-                    <ListItemButton onClick={() => onFilter(cat.value)}>
+                    <ListItemButton onClick={() => handleFilter(cat.value)}>
                         <ListItemText primary={cat.label}/>
                     </ListItemButton>
                 </ListItem>

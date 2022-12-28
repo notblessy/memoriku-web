@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
   const onLogout = () => {
     removeCookie('accessToken', { path: '/' });
-    navigate('/auth');
+    navigate('/', {replace: true});
   };
 
   return (
