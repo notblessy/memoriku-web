@@ -8,3 +8,12 @@ export const useCategory = () => {
     loading: (!error && !data) || isValidating,
   };
 };
+
+export const useCategories = () => {
+  const { data, error, isValidating } = useSWR('/cms/category');
+
+  return {
+    data: data?.records.length ? data.records : [],
+    loading: (!error && !data) || isValidating,
+  };
+};

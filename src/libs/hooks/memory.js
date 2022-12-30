@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import api from '../utils/api'
 
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
+import useToast from '../contexts/toast';
+
 import debounce from 'lodash/debounce';
 
 export const useMemories = () => {
+  const navigate = useNavigate()
+  const toast = useToast()
+
   const [query, setQuery] = useSearchParams({
     page: 1,
     title: "",
@@ -81,13 +86,37 @@ export const useMemories = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const onAdd = useCallback(
+    async (data) => {
+      setLoading(true);
+      try {
+        const { data: res } = await api.post('/cms/memory', data);
+
+        if (res.success) {
+          mutate('/cms/memory');
+          toast('success', 'Memory berhasil disimpan.');
+
+          navigate('/budgets');
+        } else {
+          toast('error', 'Terjadi kesalahan ketika menyimpan memory');
+        }
+      } catch (error) {
+        toast('error', error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [navigate, toast]
+  );
+
   return {
     data: data ? data : {},
     loading,
     paging,
     onChangePage,
     onSearch,
-    onFilter
+    onFilter,
+    onAdd
   };
 };
 

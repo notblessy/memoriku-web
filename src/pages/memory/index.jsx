@@ -42,6 +42,14 @@ export default function Memory() {
         >
             go back
         </Button>
+        <Button
+            sx={{borderRadius: 0, p: 0, textTransform: 'lowercase', color: grey[700]}}
+            onClick={() => navigateTo(`/edit/${memory.id}`)}
+            size="small"
+            color="inherit"
+        >
+            edit
+        </Button>
         <Card key={memory.id} sx={{ width: '100%', mb: 2}}>
             {memory.photo ? 
                 <CardMedia

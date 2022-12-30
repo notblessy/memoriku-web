@@ -1,30 +1,31 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Navbar, Protector } from './components';
 
 import {
   AppBar,
   Box,
-  Button,
   Container,
   CssBaseline,
   Grid,
   InputBase,
   Link,
   Toolbar,
-  Typography,
 } from '@mui/material'
 import { blueGrey } from '@mui/material/colors';
 
 import Home from './pages/home';
 import Memory from './pages/memory';
+import EditMemory from './pages/memory/edit';
 
 import { useMemories } from './libs/hooks/memory';
 import Auth from './pages/auth';
 import { useCookies } from 'react-cookie';
 import { useAuth } from './libs/contexts/auth';
+import CreateMemory from './pages/memory/create';
 
 function App() {
+  const navigate = useNavigate()
   const [cookies] = useCookies()
 
   const { onLogout } = useAuth()
@@ -42,7 +43,7 @@ function App() {
         >
           <Toolbar>
             <Grid container spacing={2}>
-              <Grid item xs={10}>
+              <Grid item xs={8}>
                 <InputBase
                   sx={{
                     ml: 1,
@@ -56,6 +57,22 @@ function App() {
                     onSearch(event.target.value);
                   }}
                 />
+              </Grid>
+              <Grid item xs={2}>
+                  {
+                    cookies.accessToken ?
+                      <Link
+                        color="inherit"
+                        component="button"
+                        underline="hover"
+                        variant="body2"
+                        sx={{ml: 10, pt: '5px'}}
+                        onClick={() => navigate("/create")}
+                      >
+                        Create Memory
+                    </Link>
+                    : null
+                  }
               </Grid>
               <Grid item xs={2}>
                   {
@@ -83,6 +100,8 @@ function App() {
               <Route element={<Protector />}>
                 <Route path="/protected/memory" element="" />
                 <Route path="/protected/category" element="" />
+                <Route path="/create" element={<CreateMemory />} />
+                <Route path="/edit/:memoryID" element={<EditMemory />} />
               </Route>
               <Route path="/auth" element={<Auth />} />
               <Route path="/" element={<Home />} />
