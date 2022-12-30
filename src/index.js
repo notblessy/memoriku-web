@@ -9,22 +9,25 @@ import { SWRConfig } from 'swr';
 
 import { fetcher } from './libs/utils/api';
 import { AuthProvider } from './libs/contexts/auth';
+import { ToastProvider } from './libs/contexts/toast';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <CookiesProvider>
       <BrowserRouter>
-        <SWRConfig
-          value={{
-            refreshInterval: 0,
-            fetcher
-          }}
-        >
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </SWRConfig>
+        <ToastProvider>
+          <SWRConfig
+            value={{
+              refreshInterval: 0,
+              fetcher
+            }}
+          >
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </SWRConfig>
+        </ToastProvider>
       </BrowserRouter>
     </CookiesProvider>
   </React.StrictMode>

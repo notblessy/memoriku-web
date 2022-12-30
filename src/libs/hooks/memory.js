@@ -92,11 +92,11 @@ export const useMemories = () => {
       try {
         const { data: res } = await api.post('/cms/memory', data);
 
-        if (res.success) {
+        if (res.message === "SUCCESS") {
           mutate('/cms/memory');
           toast('success', 'Memory berhasil disimpan.');
 
-          navigate('/budgets');
+          navigate('/');
         } else {
           toast('error', 'Terjadi kesalahan ketika menyimpan memory');
         }

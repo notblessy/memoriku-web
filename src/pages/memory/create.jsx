@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 
 import {
-  Button,
   Card,
   MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useMemories } from '../../libs/hooks/memory';
 import { useForm } from 'react-hook-form';
@@ -102,27 +102,16 @@ export default function CreateMemory() {
               </Box>
               <div></div>
               <Box sx={{ '& button': { mt: 1, mb: 1 } }}>
-                {loading ? (
-                  <Button
-                    loading={loading.toString()}
-                    loadingPosition="start"
-                    style={{ width: '100%' }}
-                    variant="contained"
-                    size="medium"
-                    onClick={handleSubmit(onSubmit)}
-                  >
-                    Submit
-                  </Button>
-                ) : (
-                  <Button
-                    style={{ width: '100%' }}
-                    variant="contained"
-                    size="medium"
-                    onClick={handleSubmit(onSubmit)}
-                  >
-                    Submit
-                  </Button>
-                )}
+                <LoadingButton
+                  loading={loading ? loading : false}
+                  style={{ width: '100%' }}
+                  variant="outlined"
+                  size="medium"
+                  color="inherit"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  Submit
+                </LoadingButton>
               </Box>
             </Box>
           </Box>

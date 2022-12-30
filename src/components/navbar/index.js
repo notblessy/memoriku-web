@@ -17,7 +17,7 @@ function Navbar(props) {
   const { onFilter } = useMemories()
 
   const handleFilter = (cat) => {
-    navigate("/", {replace: true})
+    navigate("../")
     onFilter(cat)
   }
 
